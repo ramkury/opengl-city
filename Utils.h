@@ -21,3 +21,5 @@ struct RGBColor
 		glColor3ub(r, g, b);
 	}
 };
+
+GLint loadTexture(const char* name);

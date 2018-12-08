@@ -1,12 +1,23 @@
 ﻿#include <GL/glut.h>
+#include <soil.h>
 #include "Camera.h"
 
 Drone drone;
+GLint ground_texture = 0, building_texture = 0, house_texture = 0;
+
+void LoadTextures()
+{
+	ground_texture   = loadTexture("textures/roads.png");
+	//building_texture = loadTexture("textures/building.png");
+	//house_texture    = loadTexture("textures/house.png");
+}
 
 void setup() // Will only run once, on program startup
 {
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_2D);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	LoadTextures();
 }
 
 void draw() // Renders the scene
@@ -15,12 +26,21 @@ void draw() // Renders the scene
 	drone.UpdateViewParameters();
 
 	glColor3d(1, 1, 1);
-
+	glBindTexture(GL_TEXTURE_2D, ground_texture);
 	glBegin(GL_QUADS);
-	glVertex2d(0, 0);
-	glVertex2d(0, 0.5);
-	glVertex2d(0.5, 0.5);
-	glVertex2d(0.5, 0);
+	
+	glTexCoord2d(0, 10);
+	glVertex2d(-5, 5);
+	
+	glTexCoord2d(0, 0);
+	glVertex2d(-5, -5);
+	
+	glTexCoord2d(10, 0);
+	glVertex2d(5, -5);
+	
+	glTexCoord2d(10, 10);
+	glVertex2d(5, 5);
+	
 	glEnd();
 
 	//glutWireSphere(10, 20, 20);
