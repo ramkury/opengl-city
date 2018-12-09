@@ -11,15 +11,15 @@ void Camera::OnWindowSizeChanged(GLsizei width, GLsizei height)
 Camera::Camera()
 {
 	pos.x = 0;
-	pos.y = 1;
-	pos.z = 1;
+	pos.y = -5;
+	pos.z = 3;
 }
 
 void Camera::UpdateViewParameters()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(55, fAspect, 1, 1300);
+	gluPerspective(45, fAspect, 0.01, 1300);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -32,20 +32,20 @@ void Camera::OnMouseEvent(int button, int state, int x, int y)
 
 void Camera::KeyboardSpecial(int key, int x, int y)
 {
-	float step = 1;
+	float step = 0.2;
 	switch (key)
 	{
 	case GLUT_KEY_UP: // Moves upwards from the ground
-		STEP_UP(pos.z, step, 1000);
+		STEP_UP(pos.z, step, 100);
 		break;
 	case GLUT_KEY_DOWN: // Moves towards the ground
-		STEP_DOWN(pos.z, step, 0);
+		STEP_DOWN(pos.z, step, 0.2);
 		break;
 	case GLUT_KEY_RIGHT: // Moves right
-		STEP_UP(pos.x, step, 500);
+		STEP_UP(pos.x, step, 100);
 		break;
 	case GLUT_KEY_LEFT: // Moves left
-		STEP_DOWN(pos.x, step, 0);
+		STEP_DOWN(pos.x, step, -100);
 		break;
 	default:
 		break;

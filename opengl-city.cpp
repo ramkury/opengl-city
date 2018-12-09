@@ -1,9 +1,15 @@
 ﻿#include <GL/glut.h>
 #include <soil.h>
+#include <vector>
 #include "Camera.h"
+#include "Building.h"
+
+using namespace std;
 
 Drone drone;
 GLint ground_texture = 0, building_texture = 0, house_texture = 0;
+
+vector<Building> buildings;
 
 void LoadTextures()
 {
@@ -12,12 +18,43 @@ void LoadTextures()
 	//house_texture    = loadTexture("textures/house.png");
 }
 
+void CreateBuildings()
+{
+	buildings.emplace_back(0, false, false);
+	auto& b = buildings.back();
+	b.height = 5;
+	b.width = 2;
+	b.texture = ground_texture;
+}
+
 void setup() // Will only run once, on program startup
 {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	LoadTextures();
+	CreateBuildings();
+}
+
+void DrawGround()
+{
+	glColor3d(1, 1, 1);
+	glBindTexture(GL_TEXTURE_2D, ground_texture);
+	glBegin(GL_QUADS);
+
+	glTexCoord2d(0, 10);
+	glVertex2d(-10, 10);
+
+	glTexCoord2d(0, 0);
+	glVertex2d(-10, -10);
+
+	glTexCoord2d(10, 0);
+	glVertex2d(10, -10);
+
+	glTexCoord2d(10, 10);
+	glVertex2d(10, 10);
+
+	glEnd();
 }
 
 void draw() // Renders the scene
@@ -25,25 +62,11 @@ void draw() // Renders the scene
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	drone.UpdateViewParameters();
 
-	glColor3d(1, 1, 1);
-	glBindTexture(GL_TEXTURE_2D, ground_texture);
-	glBegin(GL_QUADS);
-	
-	glTexCoord2d(0, 10);
-	glVertex2d(-5, 5);
-	
-	glTexCoord2d(0, 0);
-	glVertex2d(-5, -5);
-	
-	glTexCoord2d(10, 0);
-	glVertex2d(5, -5);
-	
-	glTexCoord2d(10, 10);
-	glVertex2d(5, 5);
-	
-	glEnd();
-
-	//glutWireSphere(10, 20, 20);
+	DrawGround();
+	for (auto& b : buildings)
+	{
+		b.Draw();
+	}
 
 	glutSwapBuffers();
 }
