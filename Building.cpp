@@ -12,6 +12,7 @@ void Building::Draw()
 
 	if (mirror)
 	{
+		glDisable(GL_BLEND);
 		glDisable(GL_COLOR_MATERIAL);
 		glEnable(GL_LIGHTING);
 		GLfloat specular[] = { 1, 1, 1, 0 };
@@ -25,7 +26,9 @@ void Building::Draw()
 	}
 	else
 	{
+		glEnable(GL_BLEND);
 		glEnable(GL_COLOR_MATERIAL);
+		glDisable(GL_LIGHTING);
 		transparent ? glColor4d(1, 1, 1, 0.5) : glColor4d(1, 1, 1, 1);
 	}
 
@@ -79,7 +82,7 @@ void Building::Draw()
 
 	glPopMatrix();
 
-	glDisable(GL_LIGHTING);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Building::DrawWall()

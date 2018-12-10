@@ -4,11 +4,11 @@
 class House
 {
 public:
-	House();
+	House(GLint wall_texture, GLint ceiling_texture, GLint x, GLint y, GLdouble width);
 	void Draw();
-	GLdouble x, y;
+	GLdouble height_house, height_roof, x, y, width;
 	GLint wall_texture, ceiling_texture;
 private:
-	void DrawWall();
+	GLdouble roof_angle;
 };
 
