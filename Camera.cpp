@@ -12,7 +12,7 @@ void Camera::OnWindowSizeChanged(GLsizei width, GLsizei height)
 Camera::Camera()
 {
 	pos.x = 0;
-	pos.y = -5;
+	pos.y = -10;
 	pos.z = 3;
 }
 
@@ -37,16 +37,16 @@ void Camera::KeyboardSpecial(int key, int x, int y)
 	switch (key)
 	{
 	case GLUT_KEY_UP: // Moves upwards from the ground
-		STEP_UP(pos.z, step, 100);
+		STEP_UP(pos.z, step, 10);
 		break;
 	case GLUT_KEY_DOWN: // Moves towards the ground
 		STEP_DOWN(pos.z, step, 0.2);
 		break;
 	case GLUT_KEY_RIGHT: // Moves right
-		STEP_UP(pos.x, step, 100);
+		STEP_UP(pos.x, step, 10);
 		break;
 	case GLUT_KEY_LEFT: // Moves left
-		STEP_DOWN(pos.x, step, -100);
+		STEP_DOWN(pos.x, step, -10);
 		break;
 	default:
 		break;

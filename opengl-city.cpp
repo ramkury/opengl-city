@@ -9,7 +9,7 @@ using namespace std;
 
 Drone drone;
 GLint ground_texture = 0, building_texture = 0, brick_texture = 0, concrete_texture = 0,
-	glass_texture = 0, rooftiles_texture = 0;
+	glass_texture = 0, rooftiles_texture = 0, mountain_texture = 0;
 
 vector<Building> buildings;
 vector<House> houses;
@@ -25,6 +25,11 @@ void LoadTextures()
 	glass_texture     = loadTexture("textures/glass.png");
 	brick_texture     = loadTexture("textures/brick.png");
 	rooftiles_texture = loadTexture("textures/roof.png");
+	mountain_texture  = loadTexture("textures/mountain2.png");
+	glBindTexture(GL_TEXTURE_2D, mountain_texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void CreateBuildings()
@@ -90,6 +95,93 @@ void DrawGround()
 	glEnd();
 }
 
+void DrawBackground()
+{
+	glBindTexture(GL_TEXTURE_2D, mountain_texture);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glTranslated(0, 10, 0);
+	glRotated(90, 1, 0, 0);
+	glBegin(GL_QUADS);
+	{
+		glTexCoord2d(0, 0);
+		glVertex2d(-10, 0);
+		
+		glTexCoord2d(0, 1);
+		glVertex2d(-10, 10);
+		
+		glTexCoord2d(1, 1);
+		glVertex2d(10, 10);
+		
+		glTexCoord2d(1, 0);
+		glVertex2d(10, 0);
+	}
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(0, -10, 0);
+	glRotated(90, 1, 0, 0);
+	glBegin(GL_QUADS);
+	{
+		glTexCoord2d(0, 0);
+		glVertex2d(-10, 0);
+
+		glTexCoord2d(0, 1);
+		glVertex2d(-10, 10);
+
+		glTexCoord2d(1, 1);
+		glVertex2d(10, 10);
+
+		glTexCoord2d(1, 0);
+		glVertex2d(10, 0);
+	}
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(10, 0, 0);
+	glRotated(90, 1, 0, 0);
+	glRotated(90, 0, 1, 0);
+	glBegin(GL_QUADS);
+	{
+		glTexCoord2d(0, 0);
+		glVertex2d(-10, 0);
+
+		glTexCoord2d(0, 1);
+		glVertex2d(-10, 10);
+
+		glTexCoord2d(1, 1);
+		glVertex2d(10, 10);
+
+		glTexCoord2d(1, 0);
+		glVertex2d(10, 0);
+	}
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslated(-10, 0, 0);
+	glRotated(90, 1, 0, 0);
+	glRotated(90, 0, 1, 0);
+	glBegin(GL_QUADS);
+	{
+		glTexCoord2d(0, 0);
+		glVertex2d(-10, 0);
+
+		glTexCoord2d(0, 1);
+		glVertex2d(-10, 10);
+
+		glTexCoord2d(1, 1);
+		glVertex2d(10, 10);
+
+		glTexCoord2d(1, 0);
+		glVertex2d(10, 0);
+	}
+	glEnd();
+	glPopMatrix();
+}
+
 void Lighting()
 {
 	glLightfv(GL_LIGHT0, GL_POSITION, sun_position);
@@ -106,7 +198,7 @@ void draw() // Renders the scene
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	drone.UpdateViewParameters();
-
+	DrawBackground();
 	DrawGround();
 
 	for (auto& b : buildings)
