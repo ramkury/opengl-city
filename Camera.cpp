@@ -43,10 +43,10 @@ void Camera::KeyboardSpecial(int key, int x, int y)
 		STEP_DOWN(pos.z, step, 0.2);
 		break;
 	case GLUT_KEY_RIGHT: // Moves right
-		STEP_UP(pos.x, step, 10);
+		STEP_UP(pos.x, step, 9);
 		break;
 	case GLUT_KEY_LEFT: // Moves left
-		STEP_DOWN(pos.x, step, -10);
+		STEP_DOWN(pos.x, step, -9);
 		break;
 	default:
 		break;

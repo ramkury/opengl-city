@@ -34,6 +34,7 @@ void LoadTextures()
 
 void CreateBuildings()
 {
+	buildings.reserve(14);
 	Building normal(building_texture, false, false);
 	Building transp(building_texture, false, true);
 	Building reflex(glass_texture, true, false);
@@ -42,8 +43,43 @@ void CreateBuildings()
 	reflex.ceiling_texture = concrete_texture;
 	transp.ceiling_texture = concrete_texture;
 
-	normal.height = 5;
+	normal.height = 8;
 	normal.width = 1.3;
+	buildings.push_back(normal);
+
+	normal.height = 3.5;
+	normal.x = -4;
+	buildings.push_back(normal);
+
+	normal.height = 4;
+	normal.y = 2;
+	buildings.push_back(normal);
+
+	normal.height = 3.3;
+	normal.x = 4;
+	buildings.push_back(normal);
+
+	normal.x = 2;
+	normal.y = 4;
+	buildings.push_back(normal);
+
+	normal.wall_texture = glass_texture;
+	normal.height = 3.6;
+	normal.x = -2;
+	normal.y = -4;
+	buildings.push_back(normal);
+
+	normal.height = 2;
+	normal.x = 2;
+	normal.y = -2;
+	buildings.push_back(normal);
+
+	normal.height = 1;
+	normal.x = 6;
+	normal.y = -6;
+	buildings.push_back(normal);
+
+	normal.y = 4;
 	buildings.push_back(normal);
 	
 	reflex.height = 2.5;
@@ -51,15 +87,40 @@ void CreateBuildings()
 	reflex.x = -2;
 	buildings.push_back(reflex);
 
+	reflex.height = 3;
+	reflex.x = 0;
+	reflex.y = 4;
+	buildings.push_back(reflex);
+
+	reflex.height = 2;
+	reflex.x = -6;
+	reflex.y = -4;
+	buildings.push_back(reflex);
+
 	transp.height = 3;
 	transp.width = 1.3;
 	transp.x = 2;
+	buildings.push_back(transp);
+
+	transp.height = 4;
+	transp.x = 4;
+	transp.y = -2;
 	buildings.push_back(transp);
 }
 
 void CreateHouses()
 {
-	houses.emplace_back(brick_texture, rooftiles_texture, 4, 0, 1.3);
+	houses.reserve(32);
+	for (int i = -8; i <= 8; i += 2)
+	{
+		for (int j = -8; j <= 8; j += 2)
+		{
+			if (i == -8 || i == 8 || j == -8 || j == 8)
+			{
+				houses.emplace_back(brick_texture, rooftiles_texture, i, j, 1.3);
+			}
+		}
+	}
 }
 
 void setup() // Will only run once, on program startup
