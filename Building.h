@@ -4,10 +4,10 @@
 class Building
 {
 public:
-	Building(GLint texture, bool mirror, bool transparent);
+	Building(GLint wall_texture, bool mirror, bool transparent);
 	void Draw();
 	GLdouble x, y, height, width;
-	GLint texture;
+	GLint wall_texture, ceiling_texture;
 	bool mirror, transparent;
 private:
 	void DrawWall();

@@ -7,7 +7,7 @@
 using namespace std;
 
 Drone drone;
-GLint ground_texture = 0, building_texture = 0, house_texture = 0;
+GLint ground_texture = 0, building_texture = 0, house_texture = 0, concrete_texture = 0;
 
 vector<Building> buildings;
 
@@ -15,12 +15,14 @@ void LoadTextures()
 {
 	ground_texture   = loadTexture("textures/roads.png");
 	building_texture = loadTexture("textures/building.png");
+	concrete_texture = loadTexture("textures/concrete.png");
 	//house_texture    = loadTexture("textures/house.png");
 }
 
 void CreateBuildings()
 {
 	Building b(building_texture, false, false);
+	b.ceiling_texture = concrete_texture;
 
 	b.height = 5;
 	b.width = 1.3;
