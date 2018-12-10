@@ -11,5 +11,6 @@ public:
 	bool mirror, transparent;
 private:
 	void DrawWall();
+	void DrawCeiling();
 };
 

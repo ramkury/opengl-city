@@ -7,38 +7,47 @@
 using namespace std;
 
 Drone drone;
-GLint ground_texture = 0, building_texture = 0, house_texture = 0, concrete_texture = 0;
+GLint ground_texture = 0, building_texture = 0, house_texture = 0, concrete_texture = 0,
+	glass_texture = 0;
 
 vector<Building> buildings;
+
+GLfloat sun_position[] = { 1, -20, 100 };
+GLfloat sun_color[] = { 1, 0.65f, 0.46f, 1 };
 
 void LoadTextures()
 {
 	ground_texture   = loadTexture("textures/roads.png");
 	building_texture = loadTexture("textures/building.png");
 	concrete_texture = loadTexture("textures/concrete.png");
+	glass_texture =    loadTexture("textures/glass.png");
 	//house_texture    = loadTexture("textures/house.png");
 }
 
 void CreateBuildings()
 {
-	Building b(building_texture, false, false);
-	b.ceiling_texture = concrete_texture;
+	Building normal(building_texture, false, false);
+	Building reflex(glass_texture, true, false);
 
-	b.height = 5;
-	b.width = 1.3;
-	buildings.push_back(b);
+	normal.ceiling_texture = concrete_texture;
+	reflex.ceiling_texture = concrete_texture;
+
+	normal.height = 5;
+	normal.width = 1.3;
+	buildings.push_back(normal);
 	
-	b.height = 2.5;
-	b.width = 1.3;
-	b.x = -2;
-	buildings.push_back(b);
+	reflex.height = 2.5;
+	reflex.width = 1.3;
+	reflex.x = -2;
+	buildings.push_back(reflex);
 }
 
 void setup() // Will only run once, on program startup
 {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_BLEND);
+	glEnable(GL_LIGHT0);
+	//glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClearColor(0.4f, .7f, .9f, 1.0f);
 	LoadTextures();
@@ -66,6 +75,18 @@ void DrawGround()
 	glEnd();
 }
 
+void Lighting()
+{
+	glLightfv(GL_LIGHT0, GL_POSITION, sun_position);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, sun_color);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, sun_color);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, sun_color);
+
+	glLighti(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.3);
+	glLighti(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.3);
+	glLighti(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.3);
+}
+
 void draw() // Renders the scene
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -77,13 +98,15 @@ void draw() // Renders the scene
 		b.Draw();
 	}
 
+	Lighting();
+
 	glutSwapBuffers();
 }
 
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(900, 600);
 	glutCreateWindow("OpenGL City");
 
