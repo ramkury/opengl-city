@@ -8,10 +8,13 @@ Building::Building(GLint texture, bool mirror, bool transparent) : texture(textu
 
 void Building::Draw()
 {
-	glColor3d(1, 0, 0);
+	glColor4d(1, 1, 1, 1);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
 	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+
+	glTranslated(x, y, 0);
 
 	// Front
 	glPushMatrix();
@@ -43,22 +46,23 @@ void Building::Draw()
 	DrawWall();
 	glPopMatrix();
 
+	glPopMatrix();
 }
 
 void Building::DrawWall()
 {
 	glBegin(GL_QUADS);
 	{
-		glTexCoord2d(0, 10);
+		glTexCoord2d(0, 0);
 		glVertex2d(0, 0);
 
-		glTexCoord2d(0, 0);
+		glTexCoord2d(0, height);
 		glVertex2d(0, height);
 
-		glTexCoord2d(10, 0);
+		glTexCoord2d(width, height);
 		glVertex2d(width, height);
 
-		glTexCoord2d(10, 10);
+		glTexCoord2d(width, 0);
 		glVertex2d(width, 0);
 	}
 	glEnd();

@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include <cstdio>
 
 void Camera::OnWindowSizeChanged(GLsizei width, GLsizei height)
 {
@@ -23,7 +24,7 @@ void Camera::UpdateViewParameters()
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(pos.x, pos.y, pos.z, 0, 0, 0, 0, 1, 0);
+	gluLookAt(pos.x, pos.y, pos.z, pos.x / 2, 0, pos.z / 2, 0, 0, 1);
 }
 
 void Camera::OnMouseEvent(int button, int state, int x, int y)
@@ -50,4 +51,6 @@ void Camera::KeyboardSpecial(int key, int x, int y)
 	default:
 		break;
 	}
+
+	printf("X: %f, Y: %f, Z: %f\n", pos.x, pos.y, pos.z);
 }

@@ -14,24 +14,31 @@ vector<Building> buildings;
 void LoadTextures()
 {
 	ground_texture   = loadTexture("textures/roads.png");
-	//building_texture = loadTexture("textures/building.png");
+	building_texture = loadTexture("textures/building.png");
 	//house_texture    = loadTexture("textures/house.png");
 }
 
 void CreateBuildings()
 {
-	buildings.emplace_back(0, false, false);
-	auto& b = buildings.back();
+	Building b(building_texture, false, false);
+
 	b.height = 5;
-	b.width = 2;
-	b.texture = ground_texture;
+	b.width = 1.3;
+	buildings.push_back(b);
+	
+	b.height = 2.5;
+	b.width = 1.3;
+	b.x = -2;
+	buildings.push_back(b);
 }
 
 void setup() // Will only run once, on program startup
 {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glClearColor(0.4f, .7f, .9f, 1.0f);
 	LoadTextures();
 	CreateBuildings();
 }
